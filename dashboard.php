@@ -19,7 +19,7 @@ if (strlen($_SESSION['login']) == 0) {
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
-    <link href="assets/css/style.css" rel="stylesheet" />
+
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
@@ -85,7 +85,7 @@ if (strlen($_SESSION['login']) == 0) {
                 <ul class="list-group">
                   <?php foreach ($results2 as $row): ?>
                     <li class="list-group-item">
-                      Book ID: <?php echo htmlentities($row->id); ?> | Book Name: <?php echo htmlentities($row->BookName); ?>
+                      <p>You've returned the book</p>
                     </li>
                   <?php endforeach; ?>
                 </ul>

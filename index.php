@@ -1,117 +1,167 @@
 <?php
-session_start();
-error_reporting(0);
+// Connect to the database
 include('includes/config.php');
-if ($_SESSION['login'] != '') {
-  $_SESSION['login'] = '';
-}
-if (isset($_POST['login'])) {
-  //code for captach verification
-  if ($_POST["vercode"] != $_SESSION["vercode"] or $_SESSION["vercode"] == '') {
-    echo "<script>alert('Incorrect verification code');</script>";
-  } else {
-    $email = $_POST['emailid'];
-    $password = md5($_POST['password']);
-    $sql = "SELECT EmailId,Password,StudentId,Status FROM tblstudents WHERE EmailId=:email and Password=:password";
-    $query = $dbh->prepare($sql);
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-    $query->bindParam(':password', $password, PDO::PARAM_STR);
-    $query->execute();
-    $results = $query->fetchAll(PDO::FETCH_OBJ);
 
-    if ($query->rowCount() > 0) {
-      foreach ($results as $result) {
-        $_SESSION['stdid'] = $result->StudentId;
-        if ($result->Status == 1) {
-          $_SESSION['login'] = $_POST['emailid'];
-          echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
-        } else {
-          echo "<script>alert('Your Account Has been blocked .Please contact admin');</script>";
-        }
-      }
-    } else {
-      echo "<script>alert('Invalid Details');</script>";
-    }
-  }
+// Fetch books data
+try {
+  $sql = "SELECT BookName, ISBNNumber, BookPrice FROM tblbooks";
+  $query = $dbh->prepare($sql);
+  $query->execute();
+  $books = $query->fetchAll(PDO::FETCH_OBJ);
+} catch (Exception $e) {
+  echo "<script>alert('Failed to fetch books: " . $e->getMessage() . "');</script>";
 }
 ?>
+
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-  <meta name="description" content="" />
-  <meta name="author" content="" />
-  <title>Online Library Management System | </title>
-  <!-- BOOTSTRAP CORE STYLE  -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Books List</title>
   <link href="assets/css/bootstrap.css" rel="stylesheet" />
-  <!-- FONT AWESOME STYLE  -->
-  <link href="assets/css/font-awesome.css" rel="stylesheet" />
-  <!-- CUSTOM STYLE  -->
-  <link href="assets/css/style.css" rel="stylesheet" />
-  <!-- GOOGLE FONT -->
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
+  <style>
+    body {
+      font-family: 'Open Sans', sans-serif;
+      background-color: #f9f9f9;
 
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      padding: 20px;
+
+    }
+
+    .card {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      width: 300px;
+      transition: transform 0.3s ease-in-out;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+    }
+
+    .card-header {
+      background: #007bff;
+      color: #fff;
+      padding: 15px;
+      font-size: 1.2em;
+      text-align: center;
+    }
+
+    .card-body {
+      padding: 15px;
+    }
+
+    .card-body p {
+      margin: 5px 0;
+      font-size: 0.95em;
+      color: #555;
+    }
+
+    .card-footer {
+      text-align: center;
+      padding: 10px;
+      background: #f1f1f1;
+    }
+
+    .card-footer a {
+      text-decoration: none;
+      color: #007bff;
+      font-weight: bold;
+    }
+
+    .card-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .footer-section {
+      padding: 25px 50px 25px 50px;
+      color: #fff;
+      font-size: 1em;
+      background-color: #427dfcff;
+      text-align: right;
+
+
+    }
+
+    .footer-section a,
+    .footer-section a:hover {
+      color: #000;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      border-bottom: 1px solid gray;
+      padding: 10px 20px;
+    }
+
+    .header-title {
+      font-size: 1.5em;
+      font-weight: bold;
+    }
+
+
+    .header-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 15px;
+      margin-left: 15px;
+    }
+
+    .header-links a:hover {
+      text-decoration: underline;
+    }
+  </style>
 </head>
 
 <body>
-  <!------MENU SECTION START-->
-  <?php include('includes/header.php'); ?>
-  <!-- MENU SECTION END-->
-  <div class="content-wrapper">
-    <div class="container">
-      <div class="row pad-botm">
-        <div class="col-md-12">
-          <h4 class="header-line">USER LOGIN FORM</h4>
-        </div>
-      </div>
-
-      <!--LOGIN PANEL START-->
-      <div class="row">
-        <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-          <div class="panel panel-info">
-            <div class="panel-heading">
-              LOGIN FORM
-            </div>
-            <div class="panel-body">
-              <form role="form" method="post">
-
-                <div class="form-group">
-                  <label>Enter Email id</label>
-                  <input class="form-control" type="text" name="emailid" required autocomplete="off" />
-                </div>
-                <div class="form-group">
-                  <label>Password</label>
-                  <input class="form-control" type="password" name="password" required autocomplete="off" />
-                  <p class="help-block"><a href="user-forgot-password.php">Forgot Password</a></p>
-                </div>
-
-                <div class="form-group">
-                  <label>Verification code : </label>
-                  <input type="text" class="form-control1" name="vercode" maxlength="5" autocomplete="off" required style="height:25px;" />&nbsp;<img src="captcha.php">
-                </div>
-
-                <button type="submit" name="login" class="btn btn-info">LOGIN </button> | <a href="signup.php">Not Register Yet</a>
-              </form>
-            </div>
+  <header>
+    <div class="header-title"> <img src="assets/img/ACLClogo.png" class="headerlogo" width="100px" style="margin-left: px;" />
+      <strong> ACLC Online Library</stro>
+    </div>
+    <div class="header-links">
+      <a href="login.php">Login</a>
+    </div>
+  </header>
+  <div class="container">
+    <?php if (!empty($books)): ?>
+      <?php foreach ($books as $book): ?>
+        <div class="card">
+          <div class="card-header">
+            <?php echo htmlspecialchars($book->BookName); ?>
+          </div>
+          <div class="card-body">
+            <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book->ISBNNumber); ?></p>
+            <p><strong>Price:</strong> $<?php echo htmlspecialchars($book->BookPrice); ?></p>
+          </div>
+          <div class="card-footer">
+            <a href="#">View Details</a>
           </div>
         </div>
-      </div>
-      <!---LOGIN PANEL END-->
-
-
-    </div>
+      <?php endforeach; ?>
+    <?php else: ?>
+      <p>No books available.</p>
+    <?php endif; ?>
   </div>
-  <!-- CONTENT-WRAPPER SECTION END-->
-  <?php include('includes/footer.php'); ?>
-  <!-- FOOTER SECTION END-->
-  <script src="assets/js/jquery-1.10.2.js"></script>
-  <!-- BOOTSTRAP SCRIPTS  -->
-  <script src="assets/js/bootstrap.js"></script>
-  <!-- CUSTOM SCRIPTS  -->
-  <script src="assets/js/custom.js"></script>
 
+  <!-- Footer -->
+  <?php include('includes/footer.php'); ?>
+
+  <!-- Scripts -->
+  <script src="assets/js/bootstrap.js"></script>
 </body>
 
 </html>

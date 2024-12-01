@@ -1,5 +1,5 @@
-<div class="navbar navbar-inverse set-radius-zero " style="background-color: #fff !important; padding: 10px !important;">
-    <div class="container">
+<div class="navbar navbar-inverse set-radius-zero ">
+    <div class="container" style="padding: 20px;">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="icon-bar"></span>
@@ -20,7 +20,7 @@
     </div>
 </div>
 <!-- LOGO HEADER END-->
-<section class="menu-section" style="background-color: #427dfcff !important; border-bottom: 0 none !important;">
+<section class="menu-section" style="border-bottom: 0 none !important;">
     <div class="container">
         <div class="row ">
             <div class="col-md-12">
@@ -80,18 +80,230 @@
     });
 </script>
 
+
+
 <style>
-    .logout-button {
-        display: inline-block;
-        padding: 10px 20px;
-        color: #ffffff;
-        background-color: #d9534f;
-        text-decoration: none;
-        border-radius: 5px;
-        transition: background-color 0.3s ease;
+    body {
+        font-family: 'Open Sans', sans-serif;
+        line-height: 28px;
+
     }
 
-    .logout-button:hover {
-        background-color: #c9302c;
+    .set-radius-zero {
+        border-radius: 0px;
+        -moz-border-radius: 0px;
+        -webkit-border-radius: 0px;
+    }
+
+    .content-wrapper {
+        margin-top: 40px;
+        min-height: 800px;
+        padding-bottom: 90px;
+    }
+
+    .header-line {
+        font-weight: 900;
+        padding-bottom: 25px;
+        border-bottom: 1px solid #eeeeee;
+        text-transform: uppercase;
+    }
+
+    .pad-botm {
+        padding-bottom: 30px;
+    }
+
+
+    /* =============================================================
+   NAVBAR & MENU STYLES
+ ============================================================ */
+
+    .right-div {
+        float: right;
+        padding: 20px;
+    }
+
+    #menu-top a {
+        color: #000;
+        text-decoration: none;
+        font-weight: 500;
+        padding: 25px 15px 25px 15px;
+        text-transform: uppercase;
+
+    }
+
+    .menu-section {
+        background-color: #f7f7f7;
+        border-bottom: 5px solid transparent;
+        width: 100%
+    }
+
+    .menu-top-active {
+        background-color: #eeeeee;
+    }
+
+    .navbar-inverse {
+        background-color: #FFF;
+        border-color: rgba(155, 153, 153, 0.23);
+
+    }
+
+    .navbar {
+        min-height: 90px;
+        margin-bottom: 0px;
+
+    }
+
+    .navbar-inverse .navbar-collapse,
+    .navbar-inverse .navbar-form {
+        border-color: transparent;
+    }
+
+    .navbar-toggle {
+        background-color: #000;
+        color: #000;
+        border: 1px solid black;
+    }
+
+    /* =============================================================
+   DASHBOARD STYLES
+ ============================================================ */
+
+    .img-comments {
+        border: 3px double #e1e1e1;
+        height: 60px;
+
+    }
+
+    .chat-widget-main {
+        max-height: 330px;
+        overflow: auto;
+    }
+
+    .slide-bdr {
+        border: 5px solid #9170E4
+    }
+
+    .chat-widget-left:after {
+        top: 100%;
+        left: 10%;
+        border: solid transparent;
+        content: " ";
+        position: absolute;
+        border-top-color: #F70E62;
+        border-width: 15px;
+        margin-left: -15px;
+    }
+
+    .chat-widget-left {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        position: relative;
+        border: 1px solid #F70E62;
+        font-size: 12px;
+    }
+
+    .chat-widget-right:after {
+        top: 100%;
+        right: 10%;
+        border: solid transparent;
+        content: " ";
+        position: absolute;
+        border-top-color: #5AA8CC;
+        border-width: 15px;
+        margin-left: -15px;
+    }
+
+    .chat-widget-right {
+        width: 100%;
+        height: auto;
+        padding: 15px;
+        -webkit-border-radius: 5px;
+        -moz-border-radius: 5px;
+        border-radius: 5px;
+        position: relative;
+        border: 1px solid #5AA8CC;
+        font-size: 12px;
+    }
+
+    .chat-widget-name-left {
+        color: #808080;
+        margin-top: 30px;
+        margin-left: 60px;
+        text-align: left;
+    }
+
+    .img-left-chat {
+        border: 3px double #e1e1e1;
+        float: left;
+        margin-right: 30px;
+    }
+
+    .img-right-chat {
+        border: 3px double #e1e1e1;
+        float: right;
+        margin-left: 30px;
+    }
+
+    .chat-widget-main img-right {
+        border: 3px double #e1e1e1;
+        float: left;
+    }
+
+    .chat-widget-name-left h4 {
+        font-weight: normal;
+        font-size: 11px;
+
+    }
+
+    .chat-widget-name-left h5 {
+        font-weight: normal;
+        font-size: 10px;
+    }
+
+    .chat-widget-name-right h4 {
+        font-weight: normal;
+        font-size: 11px;
+    }
+
+    .chat-widget-name-right h5 {
+        font-weight: normal;
+        font-size: 10px;
+    }
+
+    .chat-widget-name-right {
+        color: #808080;
+        margin-top: 40px;
+        margin-right: 60px;
+        text-align: right;
+    }
+
+    .recent-users-sec img {
+        max-height: 80px;
+        margin: 15px;
+    }
+
+    .back-widget-set {
+        background-color: transparent;
+    }
+
+    /* =============================================================
+   FOOTER SECTION STYLES
+ ============================================================ */
+    .footer-section {
+
+        padding: 25px 50px 25px 50px;
+        color: #fff;
+        font-size: 1em;
+        background-color: #427dfcff;
+        top: 0;
+    }
+
+    .footer-section a,
+    .footer-section a:hover {
+        color: #000;
     }
 </style>

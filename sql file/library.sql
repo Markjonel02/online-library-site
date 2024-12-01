@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 5.0.3
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1
--- Generation Time: Jun 28, 2021 at 06:07 PM
--- Server version: 10.4.14-MariaDB
--- PHP Version: 7.2.34
+-- Host: localhost:3306
+-- Generation Time: Dec 01, 2024 at 01:04 PM
+-- Server version: 8.0.30
+-- PHP Version: 8.1.10
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -28,12 +28,12 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE `admin` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `FullName` varchar(100) DEFAULT NULL,
   `AdminEmail` varchar(120) DEFAULT NULL,
   `UserName` varchar(100) NOT NULL,
   `Password` varchar(100) NOT NULL,
-  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `updationDate` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -50,10 +50,10 @@ INSERT INTO `admin` (`id`, `FullName`, `AdminEmail`, `UserName`, `Password`, `up
 --
 
 CREATE TABLE `tblauthors` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `AuthorName` varchar(159) DEFAULT NULL,
-  `creationDate` timestamp NULL DEFAULT current_timestamp(),
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `creationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -75,14 +75,14 @@ INSERT INTO `tblauthors` (`id`, `AuthorName`, `creationDate`, `UpdationDate`) VA
 --
 
 CREATE TABLE `tblbooks` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `BookName` varchar(255) DEFAULT NULL,
-  `CatId` int(11) DEFAULT NULL,
-  `AuthorId` int(11) DEFAULT NULL,
-  `ISBNNumber` int(11) DEFAULT NULL,
-  `BookPrice` int(11) DEFAULT NULL,
-  `RegDate` timestamp NULL DEFAULT current_timestamp(),
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `CatId` int DEFAULT NULL,
+  `AuthorId` int DEFAULT NULL,
+  `ISBNNumber` int DEFAULT NULL,
+  `BookPrice` int DEFAULT NULL,
+  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -100,11 +100,11 @@ INSERT INTO `tblbooks` (`id`, `BookName`, `CatId`, `AuthorId`, `ISBNNumber`, `Bo
 --
 
 CREATE TABLE `tblcategory` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `CategoryName` varchar(150) DEFAULT NULL,
-  `Status` int(1) DEFAULT NULL,
-  `CreationDate` timestamp NULL DEFAULT current_timestamp(),
-  `UpdationDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE current_timestamp()
+  `Status` int DEFAULT NULL,
+  `CreationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT '0000-00-00 00:00:00' ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -124,13 +124,13 @@ INSERT INTO `tblcategory` (`id`, `CategoryName`, `Status`, `CreationDate`, `Upda
 --
 
 CREATE TABLE `tblissuedbookdetails` (
-  `id` int(11) NOT NULL,
-  `BookId` int(11) DEFAULT NULL,
+  `id` int NOT NULL,
+  `BookId` int DEFAULT NULL,
   `StudentID` varchar(150) DEFAULT NULL,
-  `IssuesDate` timestamp NULL DEFAULT current_timestamp(),
-  `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp(),
-  `RetrunStatus` int(1) DEFAULT NULL,
-  `fine` int(11) DEFAULT NULL
+  `IssuesDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `ReturnDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  `RetrunStatus` int DEFAULT NULL,
+  `fine` int DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -152,15 +152,15 @@ INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `
 --
 
 CREATE TABLE `tblstudents` (
-  `id` int(11) NOT NULL,
+  `id` int NOT NULL,
   `StudentId` varchar(100) DEFAULT NULL,
   `FullName` varchar(120) DEFAULT NULL,
   `EmailId` varchar(120) DEFAULT NULL,
   `MobileNumber` char(11) DEFAULT NULL,
   `Password` varchar(120) DEFAULT NULL,
-  `Status` int(1) DEFAULT NULL,
-  `RegDate` timestamp NULL DEFAULT current_timestamp(),
-  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE current_timestamp()
+  `Status` int DEFAULT NULL,
+  `RegDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
+  `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
@@ -172,7 +172,9 @@ INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumb
 (4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '8569710025', '92228410fc8b872914e023160cf4ae8f', 0, '2017-07-11 15:41:27', '2017-07-15 17:43:03'),
 (8, 'SID009', 'test', 'test@gmail.com', '2359874527', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-11 15:58:28', '2017-07-15 13:42:44'),
 (9, 'SID010', 'Amit', 'amit@gmail.com', '8585856224', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 13:40:30', NULL),
-(10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 18:00:59', NULL);
+(10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 18:00:59', NULL),
+(15, '8TU001\r\n', NULL, 'zafagunof@mailinator.com', '12333333333', '5e8ff9bf55ba3508199d22e984129be6', 1, '2024-12-01 05:32:09', NULL),
+(19, '9', 'MARK JONEL DAEP RELLES', 'rellesmark43@gmail.com', '09260447220', 'ea82410c7a9991816b5eeeebe195e20a', 1, '2024-12-01 06:04:47', '2024-12-01 09:56:36');
 
 --
 -- Indexes for dumped tables
@@ -223,37 +225,37 @@ ALTER TABLE `tblstudents`
 -- AUTO_INCREMENT for table `admin`
 --
 ALTER TABLE `admin`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT for table `tblauthors`
 --
 ALTER TABLE `tblauthors`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `tblbooks`
 --
 ALTER TABLE `tblbooks`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT for table `tblcategory`
 --
 ALTER TABLE `tblcategory`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblissuedbookdetails`
 --
 ALTER TABLE `tblissuedbookdetails`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

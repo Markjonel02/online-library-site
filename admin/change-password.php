@@ -91,7 +91,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <!--LOGIN PANEL START-->
         <div class="row">
           <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-            <div class="panel panel-info">
+            <div class="panel panel-primary">
               <div class="panel-heading">
                 Change Password
               </div>
@@ -113,7 +113,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                     <input class="form-control" type="password" name="confirmpassword" autocomplete="off" required />
                   </div>
 
-                  <button type="submit" name="change" class="btn btn-info">Chnage </button>
+                  <button type="submit" name="change" class="btn btn-primary">Change Password </button>
                 </form>
               </div>
             </div>
@@ -124,6 +124,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
       </div>
     </div>
+    <style>
+      .btn {
+        width: 100%;
+      }
+    </style>
     <!-- CONTENT-WRAPPER SECTION END-->
     <?php include('includes/footer.php'); ?>
     <!-- FOOTER SECTION END-->

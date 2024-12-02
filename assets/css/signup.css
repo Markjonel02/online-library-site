@@ -1,4 +1,9 @@
-/* Centering the main container */
+
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}/* Centering the main container */
 .centercon {
     display: flex;
     align-items: center;

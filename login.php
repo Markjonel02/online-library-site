@@ -27,7 +27,7 @@ if (isset($_POST['login'])) {
     }
 
     // If not admin, check Student Table
-    $email = $_POST['username']; // Use the same input field for username and email
+    /*    $email = $_POST['username']; // Use the same input field for username and email
     $sqlStudent = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId=:username AND Password=:password";
     $queryStudent = $dbh->prepare($sqlStudent);
     $queryStudent->bindParam(':username', $email, PDO::PARAM_STR);
@@ -48,6 +48,33 @@ if (isset($_POST['login'])) {
     } else {
         // Invalid login for both admin and student
         echo "<script>alert('Invalid Details');</script>";
+    } */
+    $email = $_POST['username']; // Use the same input field for username and email
+    $password = $_POST['password']; // Plain text password entered by the user
+    $sqlStudent = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId=:username";
+    $queryStudent = $dbh->prepare($sqlStudent);
+    $queryStudent->bindParam(':username', $email, PDO::PARAM_STR);
+    $queryStudent->execute();
+
+    if ($queryStudent->rowCount() > 0) {
+        // Fetch student details
+        $result = $queryStudent->fetch(PDO::FETCH_OBJ);
+
+        // Verify password
+        if (password_verify($password, $result->Password)) {
+            // Check if the account is active
+            if ($result->Status == 1) {
+                $_SESSION['login'] = $email;
+                $_SESSION['stdid'] = $result->StudentId;
+                echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
+            } else {
+                echo "<script>alert('Your Account has been blocked. Please contact admin');</script>";
+            }
+        } else {
+            echo "<script>alert('Invalid Password');</script>";
+        }
+    } else {
+        echo "<script>alert('Invalid Email');</script>";
     }
 }
 
@@ -108,7 +135,7 @@ if (isset($_POST['login'])) {
             </button>
             <div class="lower-button">
                 <span><a href="signup.php">Create an account</a></span>
-                <span> <a href="forgot-password.php">Forgot Password</a></span>
+                <span> <a href="user-forgot-password.php">Forgot Password</a></span>
 
 
             </div>

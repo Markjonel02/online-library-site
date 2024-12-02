@@ -25,6 +25,7 @@ if (strlen($_SESSION['alogin']) == 0) {
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
 
+
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
@@ -58,7 +59,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
-<div class=" panel panel-info">
+<div class=" panel panel-primary">
                         <div class="panel-heading">
                             Author Info
                         </div>
@@ -69,7 +70,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <input class="form-control" type="text" name="author" autocomplete="off" required />
                                 </div>
 
-                                <button type="submit" name="create" class="btn btn-info">Add </button>
+                                <button type="submit" name="create" class="btn btn-primary">Add author name</button>
 
                             </form>
                         </div>
@@ -80,6 +81,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         </div>
         </div>
+        <style>
+            .btn {
+                width: 100%;
+            }
+        </style>
         <!-- CONTENT-WRAPPER SECTION END-->
         <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->

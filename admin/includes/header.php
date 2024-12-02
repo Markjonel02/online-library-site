@@ -14,7 +14,7 @@
         </div>
 
         <div class="right-div" style="display: flex; align-items: center; justify-content: center; ">
-            <a href="logout.php" class="btn btn-danger" id="logout-button">LOG ME OUT</a>
+            <a href="logout.php" class="btn btn-danger" id="logout-button">LOG ME OUT ></a>
         </div>
 
     </div>

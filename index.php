@@ -22,33 +22,85 @@ try {
   <title>Books List</title>
   <link href="assets/css/bootstrap.css" rel="stylesheet" />
   <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Open Sans', sans-serif;
       background-color: #f9f9f9;
-
+      margin: 0;
+      padding: 0;
     }
 
+    /* Header */
+    header {
+      background-color: #fff;
+      color: #555;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-title {
+      display: flex;
+      align-items: center;
+    }
+
+    .header-title img {
+      margin-right: 15px;
+      border-radius: 8px;
+    }
+
+    .header-title strong {
+      font-size: 1.8em;
+      letter-spacing: 1px;
+    }
+
+    .header-links a {
+      color: #fff;
+      text-decoration: none;
+      font-size: 1em;
+      margin-left: 15px;
+      border: 1px solid #007bff;
+      padding: 10px 25px;
+      border-radius: 5px;
+      background-color: #007bff;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .header-links a:hover {
+      color: #007bff;
+      background-color: transparent;
+    }
+
+    /* Book Cards */
     .container {
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
       gap: 20px;
-      padding: 20px;
 
     }
 
     .card {
       background: #fff;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border: none;
+      border-radius: 12px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
       overflow: hidden;
       width: 300px;
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+      margin: 2em 2em;
+
     }
 
     .card:hover {
-      transform: translateY(-10px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
     }
 
     .card-header {
@@ -57,6 +109,7 @@ try {
       padding: 15px;
       font-size: 1.2em;
       text-align: center;
+      border-radius: 12px 12px 0 0;
     }
 
     .card-body {
@@ -65,7 +118,7 @@ try {
 
     .card-body p {
       margin: 5px 0;
-      font-size: 0.95em;
+      font-size: 1em;
       color: #555;
     }
 
@@ -73,70 +126,81 @@ try {
       text-align: center;
       padding: 10px;
       background: #f1f1f1;
+      border-radius: 0 0 12px 12px;
     }
 
     .card-footer a {
       text-decoration: none;
       color: #007bff;
       font-weight: bold;
+      font-size: 1em;
+      transition: color 0.3s ease;
     }
 
     .card-footer a:hover {
-      text-decoration: underline;
+      color: #ff5722;
     }
 
+    /* Footer */
     .footer-section {
-      padding: 25px 50px 25px 50px;
+      padding: 15px;
       color: #fff;
-      font-size: 1em;
-      background-color: #427dfcff;
-      text-align: right;
-
-
+      background: linear-gradient(to right, #007bffff, #007bffff);
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .footer-section a,
-    .footer-section a:hover {
-      color: #000;
-    }
-
-    header {
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      border-bottom: 1px solid gray;
-      padding: 10px 20px;
-    }
-
-    .header-title {
-      font-size: 1.5em;
-      font-weight: bold;
-    }
-
-
-    .header-links a {
-      color: #fff;
+    .footer-section a {
+      color: #ffcc00;
       text-decoration: none;
-      font-size: 15px;
-      margin-left: 15px;
+      margin: 0 10px;
+      font-size: 1.2em;
     }
 
-    .header-links a:hover {
+    .footer-section a:hover {
       text-decoration: underline;
+    }
+
+    /* Responsive Fix for Footer */
+    @media (max-width: 768px) {
+      .footer-section {
+        position: relative;
+        box-shadow: none;
+      }
+
+      .header-title strong {
+        font-size: 1.5em;
+      }
+
+      .header-links a {
+        font-size: 0.9em;
+      }
+
+      .card {
+        width: 90%;
+      }
     }
   </style>
 </head>
 
 <body>
   <header>
-    <div class="header-title"> <img src="assets/img/ACLClogo.png" class="headerlogo" width="100px" style="margin-left: px;" />
-      <strong> ACLC Online Library</stro>
+    <div class="header-title">
+      <img src="assets/img/ACLClogo.png" class="headerlogo" width="60px" />
+      <strong>Online Library</strong>
     </div>
     <div class="header-links">
       <a href="login.php">Login</a>
     </div>
   </header>
+
+  <!-- Book Cards -->
   <div class="container">
+
+
     <?php if (!empty($books)): ?>
       <?php foreach ($books as $book): ?>
         <div class="card">
@@ -145,7 +209,7 @@ try {
           </div>
           <div class="card-body">
             <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book->ISBNNumber); ?></p>
-            <p><strong>Price:</strong> $<?php echo htmlspecialchars($book->BookPrice); ?></p>
+            <p><strong>Price:</strong> ₱ <?php echo htmlspecialchars($book->BookPrice); ?></p>
           </div>
           <div class="card-footer">
             <a href="#">View Details</a>
@@ -156,6 +220,7 @@ try {
       <p>No books available.</p>
     <?php endif; ?>
   </div>
+
 
   <!-- Footer -->
   <?php include('includes/footer.php'); ?>

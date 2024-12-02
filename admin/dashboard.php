@@ -20,9 +20,12 @@ if (strlen($_SESSION['alogin']) == 0) {
     <!-- BOOTSTRAP CORE STYLE  -->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FONT AWESOME STYLE  -->
-    <link href="assets/css/font-awesome.css" rel="stylesheet" />
+
     <!-- CUSTOM STYLE  -->
     <link href="assets/css/style.css" rel="stylesheet" />
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
+
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-rounded/css/uicons-solid-rounded.css'>
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
@@ -36,187 +39,137 @@ if (strlen($_SESSION['alogin']) == 0) {
       <div class="container">
         <div class="row pad-botm">
           <div class="col-md-12">
-            <h4 class="header-line">ADMIN DASHBOARD</h4>
-
+            <h4 class="header-line text-secondary">ADMIN DASHBOARD</h4>
           </div>
-
         </div>
 
         <div class="row">
 
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-success back-widget-set text-center">
-              <i class="fa fa-book fa-5x"></i>
+              <i class="fi fi-ss-book-open-cover text-secondary" style="font-size: 5em;"></i>
               <?php
-              $sql = "SELECT id from tblbooks ";
+              $sql = "SELECT id FROM tblbooks ";
               $query = $dbh->prepare($sql);
               $query->execute();
               $results = $query->fetchAll(PDO::FETCH_OBJ);
               $listdbooks = $query->rowCount();
               ?>
-
-
-              <h3><?php echo htmlentities($listdbooks); ?></h3>
-              Books Listed
+              <h3 class="text-secondary"><?php echo htmlentities($listdbooks); ?></h3>
+              <span class="text-secondary">Books Listed</span>
             </div>
           </div>
 
-
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-info back-widget-set text-center">
-              <i class="fa fa-bars fa-5x"></i>
+              <i class="fi fi-ss-duration-alt text-secondary" style="font-size: 5em;"></i>
               <?php
-              $sql1 = "SELECT id from tblissuedbookdetails ";
+              $sql1 = "SELECT id FROM tblissuedbookdetails ";
               $query1 = $dbh->prepare($sql1);
               $query1->execute();
               $results1 = $query1->fetchAll(PDO::FETCH_OBJ);
               $issuedbooks = $query1->rowCount();
               ?>
-
-              <h3><?php echo htmlentities($issuedbooks); ?> </h3>
-              Times Book Issued
+              <h3 class="text-secondary"><?php echo htmlentities($issuedbooks); ?> </h3>
+              <span class="text-secondary">Times Book Issued</span>
             </div>
           </div>
 
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-warning back-widget-set text-center">
-              <i class="fa fa-recycle fa-5x"></i>
+              <img src="./assets/img/restock.svg" alt="" width="80" height="80">
               <?php
               $status = 1;
-              $sql2 = "SELECT id from tblissuedbookdetails where RetrunStatus=:status";
+              $sql2 = "SELECT id FROM tblissuedbookdetails WHERE RetrunStatus=:status";
               $query2 = $dbh->prepare($sql2);
               $query2->bindParam(':status', $status, PDO::PARAM_STR);
               $query2->execute();
               $results2 = $query2->fetchAll(PDO::FETCH_OBJ);
               $returnedbooks = $query2->rowCount();
               ?>
-
-              <h3><?php echo htmlentities($returnedbooks); ?></h3>
-              Times Books Returned
+              <h3 class="text-secondary"><?php echo htmlentities($returnedbooks); ?></h3>
+              <span class="text-secondary">Times Books Returned</span>
             </div>
           </div>
+
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-danger back-widget-set text-center">
-              <i class="fa fa-users fa-5x"></i>
+              <i class="fi fi-ss-users-alt text-secondary" style="font-size: 5em;"></i>
               <?php
-              $sql3 = "SELECT id from tblstudents ";
-              $query3 = $dbh->prepare($sql1);
+              $sql3 = "SELECT id FROM tblstudents ";
+              $query3 = $dbh->prepare($sql3);
               $query3->execute();
               $results3 = $query3->fetchAll(PDO::FETCH_OBJ);
               $regstds = $query3->rowCount();
               ?>
-              <h3><?php echo htmlentities($regstds); ?></h3>
-              Registered Users
+              <h3 class="text-secondary"><?php echo htmlentities($regstds); ?></h3>
+              <span class="text-secondary">Registered Users</span>
             </div>
           </div>
 
         </div>
-
-
 
         <div class="row">
 
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-success back-widget-set text-center">
-              <i class="fa fa-user fa-5x"></i>
+              <img src="./assets/img/user-trust.svg" alt="" width="80" height="80">
               <?php
-              $sq4 = "SELECT id from tblauthors ";
+              $sq4 = "SELECT id FROM tblauthors ";
               $query4 = $dbh->prepare($sql);
               $query4->execute();
               $results4 = $query4->fetchAll(PDO::FETCH_OBJ);
               $listdathrs = $query4->rowCount();
               ?>
-
-
-              <h3><?php echo htmlentities($listdathrs); ?></h3>
-              Authors Listed
+              <h3 class="text-secondary"><?php echo htmlentities($listdathrs); ?></h3>
+              <span class="text-secondary">Authors Listed</span>
             </div>
           </div>
 
-
-          <div class="col-md-3 col-sm-3 rscol-xs-6">
+          <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-info back-widget-set text-center">
-              <i class="fa fa-file-archive-o fa-5x"></i>
+              <img src="./assets/img/to-do.svg" alt="" width="80" height="80">
               <?php
-              $sql5 = "SELECT id from tblcategory ";
+              $sql5 = "SELECT id FROM tblcategory ";
               $query5 = $dbh->prepare($sql1);
               $query5->execute();
               $results5 = $query5->fetchAll(PDO::FETCH_OBJ);
               $listdcats = $query5->rowCount();
               ?>
-
-              <h3><?php echo htmlentities($listdcats); ?> </h3>
-              Listed Categories
+              <h3 class="text-secondary"><?php echo htmlentities($listdcats); ?> </h3>
+              <span class="text-secondary">Listed Categories</span>
             </div>
           </div>
-
-
-        </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        <div class="row">
-
-          <div class="col-md-10 col-sm-8 col-xs-12 col-md-offset-1">
-            <div id="carousel-example" class="carousel slide slide-bdr" data-ride="carousel">
-
-              <div class="carousel-inner">
-                <div class="item active">
-
-                  <img src="assets/img/1.jpg" alt="" />
-
-                </div>
-                <div class="item">
-                  <img src="assets/img/2.jpg" alt="" />
-
-                </div>
-                <div class="item">
-                  <img src="assets/img/3.jpg" alt="" />
-
-                </div>
-              </div>
-              <!--INDICATORS-->
-              <ol class="carousel-indicators">
-                <li data-target="#carousel-example" data-slide-to="0" class="active"></li>
-                <li data-target="#carousel-example" data-slide-to="1"></li>
-                <li data-target="#carousel-example" data-slide-to="2"></li>
-              </ol>
-              <!--PREVIUS-NEXT BUTTONS-->
-              <a class="left carousel-control" href="#carousel-example" data-slide="prev">
-                <span class="glyphicon glyphicon-chevron-left"></span>
-              </a>
-              <a class="right carousel-control" href="#carousel-example" data-slide="next">
-                <span class="glyphicon glyphicon-chevron-right"></span>
-              </a>
-            </div>
-          </div>
-
-
-
-
 
         </div>
 
       </div>
     </div>
+    <style>
+      .back-widget-set:hover {
+        background-color: #427dfcff !important;
+        /* Change background to blue */
+        color: white !important;
+        /* Change text color to white */
+      }
+
+      .back-widget-set:hover i,
+      .back-widget-set:hover img {
+        color: white !important;
+        /* Change icon color to white */
+        filter: brightness(0) invert(1);
+        /* Invert icon color for images */
+      }
+
+      .back-widget-set h3,
+      .back-widget-set span {
+        transition: color 0.3s ease;
+        /* Smooth transition for text color */
+      }
+    </style>
+
+
+
     <!-- CONTENT-WRAPPER SECTION END-->
     <?php include('includes/footer.php'); ?>
     <!-- FOOTER SECTION END-->

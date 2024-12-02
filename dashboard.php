@@ -19,7 +19,7 @@ if (strlen($_SESSION['login']) == 0) {
     <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
     <!-- CUSTOM STYLE  -->
-
+    <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
     <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
 
@@ -46,7 +46,7 @@ if (strlen($_SESSION['login']) == 0) {
 
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-info back-widget-set text-center">
-              <i class="fa fa-bars fa-5x"></i>
+              <i class="fi fi-ss-book-open-cover text-secondary" style="font-size: 5em;"></i>
               <?php
               $sid = $_SESSION['stdid'];
               $sql1 = "SELECT id from tblissuedbookdetails where StudentID=:sid";
@@ -64,7 +64,7 @@ if (strlen($_SESSION['login']) == 0) {
 
           <div class="col-md-3 col-sm-3 col-xs-6">
             <div class="alert alert-warning back-widget-set text-center">
-              <i class="fa fa-recycle fa-5x"></i>
+              <img src="./assets/img/restock.svg" alt="" width="80" height="80">
               <?php
               $rsts = 0; // Assuming 0 indicates books not returned
               $sql2 = "SELECT * FROM tblissuedbookdetails WHERE StudentID=:sid AND RetrunStatus=:rsts";
@@ -100,6 +100,28 @@ if (strlen($_SESSION['login']) == 0) {
 
       </div>
     </div>
+    <style>
+      .back-widget-set:hover {
+        background-color: #427dfcff !important;
+        /* Change background to blue */
+        color: white !important;
+        /* Change text color to white */
+      }
+
+      .back-widget-set:hover i,
+      .back-widget-set:hover img {
+        color: white !important;
+        /* Change icon color to white */
+        filter: brightness(0) invert(1);
+        /* Invert icon color for images */
+      }
+
+      .back-widget-set h3,
+      .back-widget-set span {
+        transition: color 0.3s ease;
+        /* Smooth transition for text color */
+      }
+    </style>
     <!-- CONTENT-WRAPPER SECTION END-->
     <?php include('includes/footer.php'); ?>
     <!-- FOOTER SECTION END-->

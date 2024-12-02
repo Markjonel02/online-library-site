@@ -2,39 +2,7 @@
 session_start();
 include('includes/config.php');
 error_reporting(0);
-/* if (isset($_POST['signup'])) {
-    //code for captach verification
 
-    //Code for student ID
-    $count_my_page = ("studentid.txt");
-    $hits = file($count_my_page);
-    $hits[0]++;
-    $fp = fopen($count_my_page, "w");
-    fputs($fp, "$hits[0]");
-    fclose($fp);
-    $StudentId = $hits[0];
-    $fname = $_POST['fullanme'];
-    $mobileno = $_POST['mobileno'];
-    $email = $_POST['email'];
-    $password = md5($_POST['password']);
-    $status = 1;
-    $sql = "INSERT INTO  tblstudents(StudentId,FullName,MobileNumber,EmailId,Password,Status) VALUES(:StudentId,:fname,:mobileno,:email,:password,:status)";
-    $query = $dbh->prepare($sql);
-    $query->bindParam(':StudentId', $StudentId, PDO::PARAM_STR);
-    $query->bindParam(':fname', $fname, PDO::PARAM_STR);
-    $query->bindParam(':mobileno', $mobileno, PDO::PARAM_STR);
-    $query->bindParam(':email', $email, PDO::PARAM_STR);
-    $query->bindParam(':password', $password, PDO::PARAM_STR);
-    $query->bindParam(':status', $status, PDO::PARAM_STR);
-    $query->execute();
-    $lastInsertId = $dbh->lastInsertId();
-    if ($lastInsertId) {
-        echo '<script>alert("Your Registration successfull and your student id is  "+"' . $StudentId . '")</script>';
-    } else {
-        echo "<script>alert('Something went wrong. Please try again');</script>";
-    }
-}
- */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     try {
         // Code for generating a unique Student ID
@@ -162,7 +130,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             </div>
             <div class="input_container">
                 <label class="input_label" for="password_field">Password</label>
-                <input type="password" name="password" required class="input_field" />
+                <input type="password" name="newpassword" required class="input_field" />
             </div>
             <div class="input_container">
                 <label class="input_label" for="confirmpassword_field">Confirm Password</label>
@@ -171,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             <button type="submit" name="signup" class="sign-in_btn">
                 <span>Sign Up</span>
             </button>
-            <a href="adminlogin.php">Already have an account?</a>
+            <a href="login.php">Already have an account?</a>
         </form>
 
     </div>

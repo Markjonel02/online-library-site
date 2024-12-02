@@ -97,7 +97,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-sm-6 col-xs-12 col-md-offset-1"">
-<div class=" panel panel-info">
+<div class=" panel panel-primary">
                         <div class="panel-heading">
                             Issue a New Book
                         </div>
@@ -128,7 +128,7 @@ if (strlen($_SESSION['alogin']) == 0) {
 
                                     </select>
                                 </div>
-                                <button type="submit" name="issue" id="submit" class="btn btn-info">Issue Book </button>
+                                <button type="submit" name="issue" id="submit" class="btn btn-primary">Issue Book </button>
 
                             </form>
                         </div>
@@ -139,6 +139,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         </div>
         </div>
+        <style>
+            .btn {
+                width: 100%;
+            }
+        </style>
         <!-- CONTENT-WRAPPER SECTION END-->
         <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->

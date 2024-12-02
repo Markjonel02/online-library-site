@@ -66,7 +66,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 </div>
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3"">
-<div class=" panel panel-info">
+<div class=" panel panel-primary">
                         <div class="panel-heading">
                             Book Info
                         </div>
@@ -127,7 +127,10 @@ if (strlen($_SESSION['alogin']) == 0) {
                                     <label>Price<span style="color:red;">*</span></label>
                                     <input class="form-control" type="text" name="price" autocomplete="off" required="required" />
                                 </div>
-                                <button type="submit" name="add" class="btn btn-info">Add </button>
+                                <button type="submit" name="add" class="btn btn-primary w-100">Add</button>
+
+
+
 
                             </form>
                         </div>
@@ -138,6 +141,11 @@ if (strlen($_SESSION['alogin']) == 0) {
 
         </div>
         </div>
+        <style>
+            .btn {
+                width: 100%;
+            }
+        </style>
         <!-- CONTENT-WRAPPER SECTION END-->
         <?php include('includes/footer.php'); ?>
         <!-- FOOTER SECTION END-->

@@ -34,6 +34,6 @@ if (isset($_GET['logout']) && $_GET['logout'] == 'true') {
     }
     unset($_SESSION['login']);
     session_destroy(); // destroy session
-    header("location:../adminlogin.php");
+    header("location:../login.php");
     exit;
 }

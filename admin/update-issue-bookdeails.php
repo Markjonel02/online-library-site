@@ -149,7 +149,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                                         </div>
 
                                         <div class="form-group">
-                                            <label>Fine (in USD) :</label>
+                                            <label>Fine (IN PESO) :</label>
                                             <?php
                                             if ($result->fine == "") { ?>
                                                 <input class="form-control" type="text" name="fine" id="fine" required />

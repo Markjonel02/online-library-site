@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 01, 2024 at 01:04 PM
+-- Generation Time: Dec 02, 2024 at 08:45 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -55,18 +55,6 @@ CREATE TABLE `tblauthors` (
   `creationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
---
--- Dumping data for table `tblauthors`
---
-
-INSERT INTO `tblauthors` (`id`, `AuthorName`, `creationDate`, `UpdationDate`) VALUES
-(1, 'Kumar Pandule', '2017-07-08 12:49:09', '2021-06-28 16:03:28'),
-(2, 'Kumar', '2017-07-08 14:30:23', '2021-06-28 16:03:35'),
-(3, 'Rahul', '2017-07-08 14:35:08', '2021-06-28 16:03:43'),
-(4, 'HC Verma', '2017-07-08 14:35:21', NULL),
-(5, 'R.D. Sharma ', '2017-07-08 14:35:36', NULL),
-(9, 'fwdfrwer', '2017-07-08 15:22:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -140,9 +128,9 @@ CREATE TABLE `tblissuedbookdetails` (
 INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `RetrunStatus`, `fine`) VALUES
 (1, 1, 'SID002', '2017-07-15 06:09:47', '2017-07-15 11:15:20', 1, 0),
 (2, 1, 'SID002', '2017-07-15 06:12:27', '2017-07-15 11:15:23', 1, 5),
-(3, 3, 'SID002', '2017-07-15 06:13:40', NULL, 0, NULL),
+(3, 3, 'SID002', '2017-07-15 06:13:40', '2024-12-02 08:42:52', 1, 2000),
 (4, 3, 'SID002', '2017-07-15 06:23:23', '2017-07-15 11:22:29', 1, 2),
-(5, 1, 'SID009', '2017-07-15 10:59:26', NULL, 0, NULL),
+(5, 1, 'SID009', '2017-07-15 10:59:26', '2024-12-02 08:43:52', 1, 2000),
 (6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL);
 
 -- --------------------------------------------------------
@@ -174,7 +162,7 @@ INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumb
 (9, 'SID010', 'Amit', 'amit@gmail.com', '8585856224', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 13:40:30', NULL),
 (10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 18:00:59', NULL),
 (15, '8TU001\r\n', NULL, 'zafagunof@mailinator.com', '12333333333', '5e8ff9bf55ba3508199d22e984129be6', 1, '2024-12-01 05:32:09', NULL),
-(19, '9', 'MARK JONEL DAEP RELLES', 'rellesmark43@gmail.com', '09260447220', 'ea82410c7a9991816b5eeeebe195e20a', 1, '2024-12-01 06:04:47', '2024-12-01 09:56:36');
+(19, '9', 'MARK JONEL DAEP RELLES', 'rellesmark43@gmail.com', '09260447220', '$2y$10$M5RnyMlVBElx62Fyw1/w1eJ/avKPvg9CT3qntmmngtDNK/60kgJeK', 1, '2024-12-01 06:04:47', '2024-12-02 05:48:32');
 
 --
 -- Indexes for dumped tables

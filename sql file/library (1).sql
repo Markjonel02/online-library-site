@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 02, 2024 at 08:45 AM
+-- Generation Time: Dec 03, 2024 at 08:57 AM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -131,7 +131,8 @@ INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `
 (3, 3, 'SID002', '2017-07-15 06:13:40', '2024-12-02 08:42:52', 1, 2000),
 (4, 3, 'SID002', '2017-07-15 06:23:23', '2017-07-15 11:22:29', 1, 2),
 (5, 1, 'SID009', '2017-07-15 10:59:26', '2024-12-02 08:43:52', 1, 2000),
-(6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL);
+(6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL),
+(7, 3, '9', '2024-12-02 23:46:40', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -237,7 +238,7 @@ ALTER TABLE `tblcategory`
 -- AUTO_INCREMENT for table `tblissuedbookdetails`
 --
 ALTER TABLE `tblissuedbookdetails`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`

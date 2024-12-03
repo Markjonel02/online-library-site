@@ -211,8 +211,8 @@ height: 60px;
     font-size:13px;
       background-color: #f7f7f7;
       text-align:right;
-    bottom: 0;
-    position: fixed;
+    bottom: 0 !important;
+    
 
 }
 

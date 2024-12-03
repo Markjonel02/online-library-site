@@ -33,7 +33,7 @@ if (strlen($_SESSION['login']) == 0) {
         <!--[if IE]>
         <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
         <![endif]-->
-        <title>Online Library Management System | Student Signup</title>
+        <title>Online Library Site | Student Signup</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -61,7 +61,7 @@ if (strlen($_SESSION['login']) == 0) {
                 <div class="row">
 
                     <div class="col-md-9 col-md-offset-1">
-                        <div class="panel panel-danger">
+                        <div class="panel panel-primary">
                             <div class="panel-heading">
                                 My Profile
                             </div>

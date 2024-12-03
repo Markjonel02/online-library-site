@@ -117,24 +117,24 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
                 <p class="title">Register Student</p>
             </div>
             <div class="input_container">
-                <label class="input_label" for="fullname">Full Name</label>
+                <label class="input_label" for="fullname">Full Name <span style="color:red">*</span></label>
                 <input placeholder="Jane Doe" type="text" name="fullanme" autocomplete="off" required class="input_field" />
             </div>
             <div class="input_container">
-                <label class="input_label" for="mobilenumber">Mobile Number:</label>
+                <label class="input_label" for="mobilenumber">Mobile Number: <span style="color:red">*</span></label>
                 <input placeholder="0123456789" type="number" name="mobileno" maxlength="11" autocomplete="off" required class="input_field" />
             </div>
             <div class="input_container">
-                <label class="input_label" for="email_field">Email</label>
+                <label class="input_label" for="email_field">Email <span style="color:red">*</span></label>
                 <input placeholder="sample@domain.com" type="email" name="email" autocomplete="off" required class="input_field" />
             </div>
             <div class="input_container">
-                <label class="input_label" for="password_field">Password</label>
-                <input type="password" name="newpassword" required class="input_field" />
+                <label class="input_label" for="password_field">Password <span style="color:red">*</span></label>
+                <input placeholder="*****" type="password" name="newpassword" required class="input_field" />
             </div>
             <div class="input_container">
-                <label class="input_label" for="confirmpassword_field">Confirm Password</label>
-                <input type="password" name="confirmpassword" required class="input_field" />
+                <label class="input_label" for="confirmpassword_field">Confirm Password <span style="color:red">*</span></label>
+                <input placeholder="*****" type="password" name="confirmpassword" required class="input_field" />
             </div>
             <button type="submit" name="signup" class="sign-in_btn">
                 <span>Sign Up</span>

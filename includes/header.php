@@ -15,7 +15,9 @@
         <?php if ($_SESSION['login']) {
         ?>
             <div class="right-div">
-                <a href="logout.php" class="btn btn-danger pull-right">LOG ME OUT</a>
+                <a href="logout.php" class="btn btn-danger pull-right" id="logout-button"><i class="fi fi-ts-sign-out-alt" style="font-weight:500">
+
+                    </i></a>
             </div>
         <?php } ?>
     </div>
@@ -69,7 +71,16 @@
             </div>
         </div>
     </section>
-
+    <script>
+        document.getElementById('logout-button').addEventListener('click', function(e) {
+            e.preventDefault(); // Prevent default link behavior
+            const confirmLogout = confirm('Are you sure you want to log out?');
+            if (confirmLogout) {
+                // Redirect to logout URL
+                window.location.href = 'logout.php?logout=true';
+            }
+        });
+    </script>
 <?php } ?>
 
 
@@ -90,6 +101,7 @@
     /* =============================================================
    GENERAL STYLES
  ============================================================ */
+    @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-straight/css/uicons-thin-straight.css');
 
     body {
         font-family: 'Open Sans', sans-serif;

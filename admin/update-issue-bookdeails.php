@@ -29,7 +29,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Issued Book Details</title>
+        <title>Online Library Site | Issued Book Details</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -94,7 +94,7 @@ if (strlen($_SESSION['alogin']) == 0) {
                 </div>
                 <div class="row">
                     <div class="col-md-10 col-sm-6 col-xs-12 col-md-offset-1"">
-<div class=" panel panel-info">
+<div class=" panel panel-primary">
                         <div class="panel-heading">
                             Issued Book Details
                         </div>

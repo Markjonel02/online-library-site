@@ -47,7 +47,6 @@ Username : admin
 Password : admin@123
 
 Home Page: 
-![alt text](https://github.com/kumarpandule2000/Online-Library-Management-System-PHP/blob/master/Images/1%20Updated.png?raw=true)
 
 Online library Management System divided in two modules–
 
@@ -78,8 +77,6 @@ Admin can change own password
 
 
 Admin Dashboard:
-![alt text](https://github.com/kumarpandule2000/Online-Library-Management-System-PHP/blob/master/Images/3%20Updated.png?raw=true)
-
 
 Students-
 
@@ -99,5 +96,3 @@ Student can also recover own password.
 
 
 Student Dashboard:
-![alt text](https://github.com/kumarpandule2000/Online-Library-Management-System-PHP/blob/master/Images/2.png?raw=true)
-

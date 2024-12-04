@@ -105,6 +105,9 @@ try {
 
     .card-header {
       background: #007bff;
+      display: flex;
+      justify-content: center;
+      flex-direction: column;
       color: #fff;
       padding: 15px;
       font-size: 1.2em;
@@ -147,7 +150,6 @@ try {
       color: #fff;
       background: linear-gradient(to right, #007bffff, #007bffff);
       text-align: center;
-      position: fixed;
       bottom: 0;
       width: 100%;
       box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
@@ -184,6 +186,7 @@ try {
       }
     }
   </style>
+  <link rel='stylesheet' href='https://cdn-uicons.flaticon.com/2.6.0/uicons-solid-straight/css/uicons-solid-straight.css'>
 </head>
 
 <body>
@@ -205,9 +208,11 @@ try {
       <?php foreach ($books as $book): ?>
         <div class="card">
           <div class="card-header">
+            <i class="fi fi-ss-book" style="font-size:50px"></i>
             <?php echo htmlspecialchars($book->BookName); ?>
           </div>
           <div class="card-body">
+
             <p><strong>ISBN:</strong> <?php echo htmlspecialchars($book->ISBNNumber); ?></p>
             <p><strong>Price:</strong> ₱ <?php echo htmlspecialchars($book->BookPrice); ?></p>
           </div>

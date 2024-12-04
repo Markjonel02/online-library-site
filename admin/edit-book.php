@@ -5,7 +5,7 @@ include('includes/config.php');
 if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
-
+    /* 
     if (isset($_POST['update'])) {
         $bookname = $_POST['bookname'];
         $category = $_POST['category'];
@@ -24,7 +24,33 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->execute();
         $_SESSION['msg'] = "Book info updated successfully";
         header('location:manage-books.php');
+    } */
+    if (isset($_POST['update'])) {
+        $bookname = $_POST['bookname'];
+        $category = $_POST['category'];
+        $author = $_POST['author'];
+        $isbn = $_POST['isbn'];
+        $price = $_POST['price'];
+        $bookid = intval($_GET['bookid']);
+        $sql = "UPDATE tblbooks SET BookName=:bookname, CatId=:category, AuthorId=:author, ISBNNumber=:isbn, BookPrice=:price WHERE id=:bookid";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':bookname', $bookname, PDO::PARAM_STR);
+        $query->bindParam(':category', $category, PDO::PARAM_STR);
+        $query->bindParam(':author', $author, PDO::PARAM_STR);
+        $query->bindParam(':isbn', $isbn, PDO::PARAM_STR);
+        $query->bindParam(':price', $price, PDO::PARAM_STR);
+        $query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
+        $query->execute();
+
+        // Store the success message in the session
+        $_SESSION['msg'] = "Book info updated successfully";
+        $_SESSION['msgType'] = "success";  // Optionally store the message type for styling
+
+        // Redirect to the same page to show the message
+        header("Location: " . $_SERVER['PHP_SELF'] . "?bookid=" . $bookid);
+        exit;
     }
+
 ?>
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -34,7 +60,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Edit Book</title>
+        <title>Online Library Site | Edit Book</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -47,6 +73,60 @@ if (strlen($_SESSION['alogin']) == 0) {
     </head>
 
     <body>
+        <style>
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background-color: #333;
+                color: #fff;
+                border-radius: 5px;
+                font-size: 16px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                transition: opacity 0.5s ease-out;
+                z-index: 1000;
+            }
+
+            .toast.success {
+                background-color: #4CAF50;
+            }
+
+            .toast.error {
+                background-color: #F44336;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var toast = document.querySelector('.toast');
+                if (toast) {
+                    // Show the toast for 3 seconds
+                    setTimeout(function() {
+                        toast.style.opacity = 0; // Fade out the toast
+                        setTimeout(function() {
+                            toast.remove();
+                            // Redirect to manage-books.php after the toast disappears
+                            window.location.href = "manage-books.php";
+                        }, 500); // Wait for the fade-out animation
+                    }, 3000); // Toast stays for 3 seconds
+                }
+            };
+        </script>
+
+        <?php
+        if (isset($_SESSION['msg'])): ?>
+            <div class="toast <?php echo $_SESSION['msgType']; ?>">
+                <?php echo $_SESSION['msg']; ?>
+            </div>
+
+        <?php
+            // Clear the message after displaying it
+            unset($_SESSION['msg']);
+            unset($_SESSION['msgType']);
+        endif;
+        ?>
+
         <!------MENU SECTION START-->
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->

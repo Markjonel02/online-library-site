@@ -16,8 +16,9 @@ if (strlen($_SESSION['alogin']) == 0) {
         $query->bindParam(':status', $status, PDO::PARAM_STR);
         $query->bindParam(':catid', $catid, PDO::PARAM_STR);
         $query->execute();
-        $_SESSION['updatemsg'] = "Brand updated successfully";
-        header('location:manage-categories.php');
+        $_SESSION['updatemsg'] = " Category updated successfully";
+        unset($_SESSION['msgType']);
+        //header('location:manage-categories.php');
     }
 ?>
     <!DOCTYPE html>
@@ -28,7 +29,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Edit Categories</title>
+        <title>Online Library Site| Edit Categories</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -40,7 +41,61 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     </head>
 
-    <body>
+    <body> <!-- Toast Styling -->
+        <style>
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background-color: #4CAF50;
+                color: #fff;
+                border-radius: 5px;
+                font-size: 16px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                transition: opacity 0.5s ease-out;
+                z-index: 1000;
+            }
+
+            .toast.success {
+                background-color: #4CAF50;
+            }
+
+            .toast.error {
+                background-color: #F44336;
+            }
+        </style>
+
+        <!-- Toast Display -->
+        <?php if (isset($_SESSION['updatemsg'])) : ?>
+            <div class="toast <?php echo $_SESSION['msgType']; ?>">
+                <?php echo $_SESSION['updatemsg']; ?>
+            </div>
+            <?php
+            // Clear the session variables after use
+            unset($_SESSION['updatemsg']);
+            unset($_SESSION['msgType']);
+            ?>
+        <?php endif; ?>
+
+        <!-- JavaScript for Toast Behavior -->
+        <script type="text/javascript">
+            window.onload = function() {
+                var toast = document.querySelector('.toast');
+                if (toast) {
+                    // Show the toast for 3 seconds
+                    setTimeout(function() {
+                        toast.style.opacity = 0; // Fade out the toast
+                        setTimeout(function() {
+                            toast.remove();
+                            // Redirect to manage-categories.php after the toast disappears
+                            window.location.href = "manage-categories.php";
+                        }, 500); // Wait for the fade-out animation
+                    }, 3000); // Toast stays visible for 3 seconds
+                }
+            };
+        </script>
         <!------MENU SECTION START-->
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->

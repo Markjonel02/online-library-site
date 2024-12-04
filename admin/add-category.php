@@ -9,20 +9,37 @@ if (strlen($_SESSION['alogin']) == 0) {
     if (isset($_POST['create'])) {
         $category = $_POST['category'];
         $status = $_POST['status'];
-        $sql = "INSERT INTO  tblcategory(CategoryName,Status) VALUES(:category,:status)";
-        $query = $dbh->prepare($sql);
-        $query->bindParam(':category', $category, PDO::PARAM_STR);
-        $query->bindParam(':status', $status, PDO::PARAM_STR);
-        $query->execute();
-        $lastInsertId = $dbh->lastInsertId();
-        if ($lastInsertId) {
-            $_SESSION['msg'] = "Brand Listed successfully";
-            header('location:manage-categories.php');
+
+        // Check if the category already exists
+        $sqlCheck = "SELECT COUNT(*) FROM tblcategory WHERE CategoryName = :category";
+        $queryCheck = $dbh->prepare($sqlCheck);
+        $queryCheck->bindParam(':category', $category, PDO::PARAM_STR);
+        $queryCheck->execute();
+        $categoryExists = $queryCheck->fetchColumn();
+
+        if ($categoryExists > 0) {
+            $toastMessage = "Category already exists. Please use a different name.";
+            $toastType = "error";
         } else {
-            $_SESSION['error'] = "Something went wrong. Please try again";
-            header('location:manage-categories.php');
+            // Insert the new category
+            $sql = "INSERT INTO tblcategory(CategoryName, Status) VALUES(:category, :status)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':category', $category, PDO::PARAM_STR);
+            $query->bindParam(':status', $status, PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+
+            if ($lastInsertId) {
+                $toastMessage = "Category created successfully.";
+                $toastType = "success";
+            } else {
+                $toastMessage = "Something went wrong. Please try again.";
+                $toastType = "error";
+            }
         }
     }
+
+
 ?>
     <!DOCTYPE html>
     <html xmlns="http://www.w3.org/1999/xhtml">
@@ -32,7 +49,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Add Categories</title>
+        <title>Online Library Site| Add Categories</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -46,8 +63,56 @@ if (strlen($_SESSION['alogin']) == 0) {
 
     <body>
         <!------MENU SECTION START-->
+        <style>
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background-color: #333;
+                color: #fff;
+                border-radius: 5px;
+                font-size: 16px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                transition: opacity 0.5s ease-out;
+                z-index: 1000;
+            }
+
+            .toast.success {
+                background-color: #4CAF50;
+            }
+
+            .toast.error {
+                background-color: #F44336;
+            }
+        </style>
+        <script type="text/javascript">
+            window.onload = function() {
+                var toast = document.querySelector('.toast');
+                if (toast) {
+                    // Show the toast for 3 seconds
+                    setTimeout(function() {
+                        toast.style.opacity = 0; // Fade out the toast
+                        setTimeout(function() {
+                            toast.remove();
+                            // Redirect to manage-categories.php after the toast disappears
+                            window.location.href = "manage-categories.php";
+                        }, 500); // Wait for the fade-out animation
+                    }, 3000); // Toast stays visible for 3 seconds
+                }
+            };
+        </script>
+
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->
+
+        <?php if (isset($toastMessage)): ?>
+            <div class="toast toast-primary <?php echo $toastType; ?>">
+                <?php echo $toastMessage; ?>
+            </div>
+        <?php endif; ?>
+
         <div class="content-wra
     <div class=" content-wrapper">
             <div class="container">

@@ -42,7 +42,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Manage Reg Students</title>
+        <title>Online Library Site | Manage Reg Students</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -116,11 +116,15 @@ if (strlen($_SESSION['alogin']) == 0) {
                                                                             ?></td>
                                                         <td class="center">
                                                             <?php if ($result->Status == 1) { ?>
-                                                                <a href="reg-students.php?inid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to block this student?');"" >  <button class=" btn btn-danger"> Inactive</button>
-                                                                <?php } else { ?>
+                                                                <a href="reg-students.php?inid=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to deactivate this student?');">
+                                                                    <button class="btn btn-danger">Deactivate</button>
+                                                                </a>
+                                                            <?php } else { ?>
+                                                                <a href="reg-students.php?id=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to activate this student?');">
+                                                                    <button class="btn btn-primary">Activate</button>
+                                                                </a>
+                                                            <?php } ?>
 
-                                                                    <a href="reg-students.php?id=<?php echo htmlentities($result->id); ?>" onclick="return confirm('Are you sure you want to active this student?');""><button class=" btn btn-primary"> Active</button>
-                                                                    <?php } ?>
 
                                                         </td>
                                                     </tr>

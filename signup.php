@@ -1,63 +1,100 @@
 <?php
 session_start();
 include('includes/config.php');
-error_reporting(0);
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+
+// Ensure CSRF token is only generated once per session
+if (!isset($_SESSION['csrf_token'])) {
+    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+}
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     try {
-        // Code for generating a unique Student ID
+        // CSRF Protection
+        if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['csrf_token']) {
+            throw new Exception('Invalid CSRF token.');
+        }
+
+        // File-based Student ID generation
         $count_my_page = "studentid.txt";
         if (!file_exists($count_my_page)) {
-            file_put_contents($count_my_page, "0"); // Initialize the file if it doesn't exist.
+            file_put_contents($count_my_page, "0");
         }
 
-        $hits = file($count_my_page, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
-        $StudentId = intval($hits[0]) + 1; // Increment student ID.
-        file_put_contents($count_my_page, $StudentId); // Save updated student ID.
+        // Safely read and update the student ID
+        $fp = fopen($count_my_page, "r+");
+        if (flock($fp, LOCK_EX)) {
+            $hits = intval(fgets($fp)) + 1;
+            ftruncate($fp, 0);
+            rewind($fp);
+            fwrite($fp, $hits);
+            flock($fp, LOCK_UN);
+            fclose($fp);
+        } else {
+            throw new Exception("Unable to lock the file for writing.");
+        }
+        $StudentId = $hits;
 
-        // Sanitize input data
-        $fname = htmlspecialchars(trim($_POST['fullanme']));
+        // Sanitize and validate inputs
+        $fname = htmlspecialchars(trim($_POST['fullname']));
+        $username = htmlspecialchars(trim($_POST['username']));
         $mobileno = htmlspecialchars(trim($_POST['mobileno']));
         $email = htmlspecialchars(trim($_POST['email']));
-        $password = md5($_POST['password']); // Use stronger hashing (e.g., password_hash) for production.
+        $password = htmlspecialchars($_POST['password']);
+        $confirmpassword = htmlspecialchars($_POST['confirmpassword']);
+
+        // Validate Mobile Number
+        if (!preg_match('/^[0-9]{10,11}$/', $mobileno)) {
+            throw new Exception('Invalid mobile number format. Please enter 10-11 digits.');
+        }
+
+        // Validate Password Match
+        if ($password !== $confirmpassword) {
+            throw new Exception('Password and Confirm Password do not match.');
+        }
+
+        // Hash the password securely
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         $status = 1;
 
-        // Check if email already exists
-        $emailCheckQuery = "SELECT COUNT(*) FROM tblstudents WHERE EmailId = :email";
-        $emailCheckStmt = $dbh->prepare($emailCheckQuery);
-        $emailCheckStmt->bindParam(':email', $email, PDO::PARAM_STR);
-        $emailCheckStmt->execute();
-        $emailExists = $emailCheckStmt->fetchColumn();
+        // Check if email or username already exists
+        $checkQuery = "SELECT COUNT(*) FROM tblstudents WHERE EmailId = :email OR UserName = :username";
+        $checkStmt = $dbh->prepare($checkQuery);
+        $checkStmt->bindParam(':email', $email, PDO::PARAM_STR);
+        $checkStmt->bindParam(':username', $username, PDO::PARAM_STR);
+        $checkStmt->execute();
+        $existingCount = $checkStmt->fetchColumn();
 
-        if ($emailExists) {
-            echo "<script>alert('Email already exists! Please use another email.');</script>";
+        if ($existingCount > 0) {
+            throw new Exception('Email or Username already exists! Please use different credentials.');
+        }
+
+        // Insert data into the database
+        $sql = "INSERT INTO tblstudents (StudentId, FullName, UserName, MobileNumber, EmailId, Password, Status) 
+                VALUES (:StudentId, :fname, :username, :mobileno, :email, :password, :status)";
+        $query = $dbh->prepare($sql);
+        $query->bindParam(':StudentId', $StudentId, PDO::PARAM_STR);
+        $query->bindParam(':fname', $fname, PDO::PARAM_STR);
+        $query->bindParam(':username', $username, PDO::PARAM_STR);
+        $query->bindParam(':mobileno', $mobileno, PDO::PARAM_STR);
+        $query->bindParam(':email', $email, PDO::PARAM_STR);
+        $query->bindParam(':password', $hashedPassword, PDO::PARAM_STR);
+        $query->bindParam(':status', $status, PDO::PARAM_INT);
+
+        $query->execute();
+        $lastInsertId = $dbh->lastInsertId();
+
+        if ($lastInsertId) {
+            echo "<script>alert('Your registration is successful. Your Student ID is: $StudentId');</script>";
         } else {
-            // Insert data into the database
-            $sql = "INSERT INTO tblstudents (StudentId, FullName, MobileNumber, EmailId, Password, Status) 
-                    VALUES (:StudentId, :fname, :mobileno, :email, :password, :status)";
-            $query = $dbh->prepare($sql);
-            $query->bindParam(':StudentId', $StudentId, PDO::PARAM_STR);
-            $query->bindParam(':fname', $fname, PDO::PARAM_STR);
-            $query->bindParam(':mobileno', $mobileno, PDO::PARAM_STR);
-            $query->bindParam(':email', $email, PDO::PARAM_STR);
-            $query->bindParam(':password', $password, PDO::PARAM_STR);
-            $query->bindParam(':status', $status, PDO::PARAM_STR);
-
-            $query->execute();
-            $lastInsertId = $dbh->lastInsertId();
-
-            if ($lastInsertId) {
-                echo "<script>alert('Your registration is successful. Your Student ID is: $StudentId');</script>";
-            } else {
-                echo "<script>alert('Something went wrong. Please try again later.');</script>";
-            }
+            throw new Exception('Something went wrong. Please try again later.');
         }
     } catch (Exception $e) {
-        echo "<script>alert('An error occurred: " . $e->getMessage() . "');</script>";
+        echo "<script>alert('Error: " . $e->getMessage() . "');</script>";
     }
 }
 ?>
-
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 
@@ -66,59 +103,36 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <!--[if IE]>
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <![endif]-->
     <title>Online Library Management System | Student Signup</title>
-    <!-- BOOTSTRAP CORE STYLE  -->
-
-    <!-- FONT AWESOME STYLE  -->
     <link href="assets/css/font-awesome.css" rel="stylesheet" />
-    <!-- CUSTOM STYLE  -->
     <link href="assets/css/signup.css" rel="stylesheet" />
-    <!-- GOOGLE FONT -->
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css' />
     <script type="text/javascript">
         function valid() {
             if (document.signup.password.value != document.signup.confirmpassword.value) {
-                alert("Password and Confirm Password Field do not match  !!");
+                alert("Password and Confirm Password Field do not match!");
                 document.signup.confirmpassword.focus();
                 return false;
             }
             return true;
         }
     </script>
-    <script>
-        function checkAvailability() {
-            $("#loaderIcon").show();
-            jQuery.ajax({
-                url: "check_availability.php",
-                data: 'emailid=' + $("#emailid").val(),
-                type: "POST",
-                success: function(data) {
-                    $("#user-availability-status").html(data);
-                    $("#loaderIcon").hide();
-                },
-                error: function() {}
-            });
-        }
-    </script>
-
 </head>
 
 <body>
-    <!------MENU SECTION START-->
-
     <div class="centercon">
-
-
         <form class="form_container" method="post" name="signup" onsubmit="return valid();">
             <div class="title_container">
                 <p class="title">Register Student</p>
             </div>
+            <input type="hidden" name="csrf_token" value="<?php echo $_SESSION['csrf_token']; ?>" />
             <div class="input_container">
                 <label class="input_label" for="fullname">Full Name <span style="color:red">*</span></label>
-                <input placeholder="Jane Doe" type="text" name="fullanme" autocomplete="off" required class="input_field" />
+                <input placeholder="Jane Doe" type="text" name="fullname" autocomplete="off" required class="input_field" />
+            </div>
+            <div class="input_container">
+                <label class="input_label" for="username">UserName <span style="color:red">*</span></label>
+                <input placeholder="Jane Doe" type="text" name="username" autocomplete="off" required class="input_field" />
             </div>
             <div class="input_container">
                 <label class="input_label" for="mobilenumber">Mobile Number: <span style="color:red">*</span></label>
@@ -130,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             </div>
             <div class="input_container">
                 <label class="input_label" for="password_field">Password <span style="color:red">*</span></label>
-                <input placeholder="*****" type="password" name="newpassword" required class="input_field" />
+                <input placeholder="*****" type="password" name="password" required class="input_field" />
             </div>
             <div class="input_container">
                 <label class="input_label" for="confirmpassword_field">Confirm Password <span style="color:red">*</span></label>
@@ -141,15 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['signup'])) {
             </button>
             <a href="login.php">Already have an account?</a>
         </form>
-
     </div>
-
-
-    <script src="assets/js/jquery-1.10.2.js"></script>
-    <!-- BOOTSTRAP SCRIPTS  -->
-
-    <!-- CUSTOM SCRIPTS  -->
-
 </body>
 
 </html>

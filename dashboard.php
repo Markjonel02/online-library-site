@@ -13,7 +13,7 @@ if (strlen($_SESSION['login']) == 0) {
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
     <meta name="description" content="" />
     <meta name="author" content="" />
-    <title>Online Library Management System | User Dash Board</title>
+    <title>Online Library Site | User Dash Board</title>
     <!-- BOOTSTRAP CORE STYLE  -->
     <link href="assets/css/bootstrap.css" rel="stylesheet" />
     <!-- FONT AWESOME STYLE  -->
@@ -66,7 +66,7 @@ if (strlen($_SESSION['login']) == 0) {
             <div class="alert alert-warning back-widget-set text-center">
               <img src="./assets/img/restock.svg" alt="" width="80" height="80">
               <?php
-              $rsts = 0; // Assuming 0 indicates books not returned
+              $rsts = 1; //  1 indicates books returned
               $sql2 = "SELECT * FROM tblissuedbookdetails WHERE StudentID=:sid AND RetrunStatus=:rsts";
               $query2 = $dbh->prepare($sql2);
               $query2->bindParam(':sid', $sid, PDO::PARAM_STR);
@@ -79,19 +79,15 @@ if (strlen($_SESSION['login']) == 0) {
 
               <h3><?php echo htmlentities($returnedbooks); ?></h3>
 
-
-              <!-- Displaying the list of books not returned -->
+              <!-- Displaying the list of returned books -->
               <?php if ($returnedbooks > 0): ?>
-                <ul class="list-group">
-                  <?php foreach ($results2 as $row): ?>
-                    <li class="list-group-item">
-                      <p>You've returned the book</p>
-                    </li>
-                  <?php endforeach; ?>
-                </ul>
+                <p>You've returned the book<?php echo $returnedbooks > 1 ? 's' : ''; ?>.</p>
+
               <?php else: ?>
-                <p>No books to Returned yet.</p>
+                <p>No books returned yet.</p>
               <?php endif; ?>
+
+
             </div>
           </div>
         </div>

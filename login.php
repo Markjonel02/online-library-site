@@ -4,19 +4,20 @@ error_reporting(0);
 include('includes/config.php');
 // Clear sessions for a clean login start
 if (isset($_SESSION['alogin']) || isset($_SESSION['login'])) {
-    $_SESSION['alogin'] = '';
-    $_SESSION['login'] = '';
+    session_unset(); // Unset all session variables
+    session_destroy(); // Destroy the session
+    session_start(); // Start a new session
 }
 
 if (isset($_POST['login'])) {
-    $username = $_POST['username'];
-    $password = md5($_POST['password']);
+    $username = $_POST['username']; // Use the same input field for username or email
+    $password = $_POST['password']; // Plain text password entered by the user
 
     // Check Admin Table
     $sqlAdmin = "SELECT UserName, Password FROM admin WHERE UserName=:username AND Password=:password";
     $queryAdmin = $dbh->prepare($sqlAdmin);
     $queryAdmin->bindParam(':username', $username, PDO::PARAM_STR);
-    $queryAdmin->bindParam(':password', $password, PDO::PARAM_STR);
+    $queryAdmin->bindParam(':password', md5($password), PDO::PARAM_STR); // Assuming admin passwords are MD5 hashed
     $queryAdmin->execute();
 
     if ($queryAdmin->rowCount() > 0) {
@@ -26,34 +27,12 @@ if (isset($_POST['login'])) {
         exit;
     }
 
-    // If not admin, check Student Table
-    /*    $email = $_POST['username']; // Use the same input field for username and email
-    $sqlStudent = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId=:username AND Password=:password";
+    // Check Student Table (email or username)
+    $sqlStudent = "SELECT EmailId, UserName, Password, StudentId, Status 
+                   FROM tblstudents 
+                   WHERE EmailId=:username OR UserName=:username";
     $queryStudent = $dbh->prepare($sqlStudent);
-    $queryStudent->bindParam(':username', $email, PDO::PARAM_STR);
-    $queryStudent->bindParam(':password', $password, PDO::PARAM_STR);
-    $queryStudent->execute();
-
-    if ($queryStudent->rowCount() > 0) {
-        // Student login successful
-        $result = $queryStudent->fetch(PDO::FETCH_OBJ);
-        $_SESSION['stdid'] = $result->StudentId;
-
-        if ($result->Status == 1) {
-            $_SESSION['login'] = $email;
-            echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
-        } else {
-            echo "<script>alert('Your Account Has been blocked. Please contact admin');</script>";
-        }
-    } else {
-        // Invalid login for both admin and student
-        echo "<script>alert('Invalid Details');</script>";
-    } */
-    $email = $_POST['username']; // Use the same input field for username and email
-    $password = $_POST['password']; // Plain text password entered by the user
-    $sqlStudent = "SELECT EmailId, Password, StudentId, Status FROM tblstudents WHERE EmailId=:username";
-    $queryStudent = $dbh->prepare($sqlStudent);
-    $queryStudent->bindParam(':username', $email, PDO::PARAM_STR);
+    $queryStudent->bindParam(':username', $username, PDO::PARAM_STR);
     $queryStudent->execute();
 
     if ($queryStudent->rowCount() > 0) {
@@ -64,9 +43,10 @@ if (isset($_POST['login'])) {
         if (password_verify($password, $result->Password)) {
             // Check if the account is active
             if ($result->Status == 1) {
-                $_SESSION['login'] = $email;
+                $_SESSION['login'] = $result->EmailId;
                 $_SESSION['stdid'] = $result->StudentId;
                 echo "<script type='text/javascript'> document.location ='dashboard.php'; </script>";
+                exit;
             } else {
                 echo "<script>alert('Your Account has been blocked. Please contact admin');</script>";
             }
@@ -74,10 +54,9 @@ if (isset($_POST['login'])) {
             echo "<script>alert('Invalid Password');</script>";
         }
     } else {
-        echo "<script>alert('Invalid Email or Username');</script>";
+        echo "<script>alert('Invalid Email or Username');</script>";;
     }
 }
-
 ?>
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">

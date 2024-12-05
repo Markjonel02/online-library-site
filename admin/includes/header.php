@@ -14,7 +14,9 @@
         </div>
 
         <div class="right-div" style="display: flex; align-items: center; justify-content: center; ">
-            <a href="logout.php" class="btn btn-danger" id="logout-button">LOG ME OUT ></a>
+            <a href="logout.php" class="btn btn-danger" id="logout-button"><i class="fi fi-ts-sign-out-alt" style="font-weight:500">
+
+                </i></a>
         </div>
 
     </div>
@@ -83,6 +85,8 @@
 
 
 <style>
+    @import url('https://cdn-uicons.flaticon.com/2.6.0/uicons-thin-straight/css/uicons-thin-straight.css');
+
     body {
         font-family: 'Open Sans', sans-serif;
         line-height: 28px;

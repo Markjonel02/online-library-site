@@ -6,21 +6,60 @@ if (strlen($_SESSION['alogin']) == 0) {
     header('location:index.php');
 } else {
 
-    if (isset($_POST['issue'])) {
+    /*  if (isset($_POST['issue'])) {
         $studentid = strtoupper($_POST['studentid']);
         $bookid = $_POST['bookdetails'];
-        $sql = "INSERT INTO  tblissuedbookdetails(StudentID,BookId) VALUES(:studentid,:bookid)";
+        $sql = "INSERT INTO tblissuedbookdetails(StudentID, BookId) VALUES(:studentid, :bookid)";
         $query = $dbh->prepare($sql);
         $query->bindParam(':studentid', $studentid, PDO::PARAM_STR);
         $query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
         $query->execute();
         $lastInsertId = $dbh->lastInsertId();
+
         if ($lastInsertId) {
-            $_SESSION['msg'] = "Book issued successfully";
-            header('location:manage-issued-books.php');
+            $toastMessage = "Book issued successfully.";
+            $toastType = "success";
         } else {
-            $_SESSION['error'] = "Something went wrong. Please try again";
-            header('location:manage-issued-books.php');
+            $toastMessage = "Something went wrong. Please try again.";
+            $toastType = "error";
+        } */
+
+    if (isset($_POST['issue'])) {
+        $studentid = strtoupper($_POST['studentid']);
+        $bookid = $_POST['bookdetails'];
+
+        // Check if the student has already issued the same book and hasn't returned it
+        $sqlCheck = "SELECT * FROM tblissuedbookdetails WHERE StudentID = :studentid AND BookId = :bookid AND ReturnDate IS NULL";
+        $queryCheck = $dbh->prepare($sqlCheck);
+        $queryCheck->bindParam(':studentid', $studentid, PDO::PARAM_STR);
+        $queryCheck->bindParam(
+            ':bookid',
+            $bookid,
+            PDO::PARAM_STR
+        );
+        $queryCheck->execute();
+        $bookAlreadyIssued = $queryCheck->fetch(PDO::FETCH_ASSOC);
+
+        if ($bookAlreadyIssued) {
+            // Book is already issued and not returned yet
+            $toastMessage = "You cannot issue the same book until you return the previous one.";
+            $toastType = "error";
+        } else {
+            // Proceed to issue the book
+            $sql = "INSERT INTO tblissuedbookdetails(StudentID, BookId) VALUES(:studentid, :bookid)";
+            $query = $dbh->prepare($sql);
+            $query->bindParam(':studentid', $studentid, PDO::PARAM_STR);
+            $query->bindParam(':bookid', $bookid, PDO::PARAM_STR);
+            $query->execute();
+            $lastInsertId = $dbh->lastInsertId();
+
+            if ($lastInsertId) {
+                $toastMessage = "Book issued successfully.";
+                $toastType = "success";
+            } else {
+                $toastMessage = "Something went wrong. Please try again.";
+                $toastType = "error";
+            }
         }
     }
 ?>
@@ -32,7 +71,7 @@ if (strlen($_SESSION['alogin']) == 0) {
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Online Library Management System | Issue a new Book</title>
+        <title>Online Library Site | Issue a new Book</title>
         <!-- BOOTSTRAP CORE STYLE  -->
         <link href="assets/css/bootstrap.css" rel="stylesheet" />
         <!-- FONT AWESOME STYLE  -->
@@ -72,9 +111,49 @@ if (strlen($_SESSION['alogin']) == 0) {
                 });
             }
         </script>
+        <script type="text/javascript">
+            window.onload = function() {
+                var toast = document.querySelector('.toast');
+                if (toast) {
+                    // Show the toast for 3 seconds
+                    setTimeout(function() {
+                        toast.style.opacity = 0; // Fade out the toast
+                        setTimeout(function() {
+                            toast.remove();
+                            // Redirect to manage-categories.php after the toast disappears
+                            window.location.href = "manage-issued-books.php";
+                        }, 500); // Wait for the fade-out animation
+                    }, 3000); // Toast stays visible for 3 seconds
+                }
+            };
+        </script>
+
         <style type="text/css">
             .others {
                 color: red;
+            }
+
+            .toast {
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                background-color: #333;
+                color: #fff;
+                border-radius: 5px;
+                font-size: 16px;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                opacity: 1;
+                transition: opacity 0.5s ease-out;
+                z-index: 1000;
+            }
+
+            .toast.success {
+                background-color: #4CAF50;
+            }
+
+            .toast.error {
+                background-color: #F44336;
             }
         </style>
 
@@ -82,6 +161,12 @@ if (strlen($_SESSION['alogin']) == 0) {
     </head>
 
     <body>
+        <?php if (isset($toastMessage)): ?>
+            <div class="toast <?php echo $toastType; ?>">
+                <?php echo $toastMessage; ?>
+            </div>
+        <?php endif; ?>
+
         <!------MENU SECTION START-->
         <?php include('includes/header.php'); ?>
         <!-- MENU SECTION END-->

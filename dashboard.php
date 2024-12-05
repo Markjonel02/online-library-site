@@ -66,7 +66,7 @@ if (strlen($_SESSION['login']) == 0) {
             <div class="alert alert-warning back-widget-set text-center">
               <img src="./assets/img/restock.svg" alt="" width="80" height="80">
               <?php
-              $rsts = 1; //  1 indicates books returned
+              $rsts = 1; // Assuming 0 indicates books not returned
               $sql2 = "SELECT * FROM tblissuedbookdetails WHERE StudentID=:sid AND RetrunStatus=:rsts";
               $query2 = $dbh->prepare($sql2);
               $query2->bindParam(':sid', $sid, PDO::PARAM_STR);

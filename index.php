@@ -150,6 +150,7 @@ try {
       color: #fff;
       background: linear-gradient(to right, #007bffff, #007bffff);
       text-align: center;
+      position: fixed;
       bottom: 0;
       width: 100%;
       box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);

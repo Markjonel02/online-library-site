@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost:3306
--- Generation Time: Dec 03, 2024 at 08:57 AM
+-- Generation Time: Dec 12, 2024 at 01:09 PM
 -- Server version: 8.0.30
 -- PHP Version: 8.1.10
 
@@ -55,6 +55,18 @@ CREATE TABLE `tblauthors` (
   `creationDate` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `UpdationDate` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `tblauthors`
+--
+
+INSERT INTO `tblauthors` (`id`, `AuthorName`, `creationDate`, `UpdationDate`) VALUES
+(1, 'Kumar Pandule', '2017-07-08 12:49:09', '2021-06-28 16:03:28'),
+(2, 'Kumar', '2017-07-08 14:30:23', '2021-06-28 16:03:35'),
+(3, 'Rahul', '2017-07-08 14:35:08', '2021-06-28 16:03:43'),
+(4, 'HC Verma', '2017-07-08 14:35:21', NULL),
+(5, 'R.D. Sharma ', '2017-07-08 14:35:36', NULL),
+(9, 'fwdfrwer', '2017-07-08 15:22:03', NULL);
 
 -- --------------------------------------------------------
 
@@ -128,11 +140,10 @@ CREATE TABLE `tblissuedbookdetails` (
 INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `ReturnDate`, `RetrunStatus`, `fine`) VALUES
 (1, 1, 'SID002', '2017-07-15 06:09:47', '2017-07-15 11:15:20', 1, 0),
 (2, 1, 'SID002', '2017-07-15 06:12:27', '2017-07-15 11:15:23', 1, 5),
-(3, 3, 'SID002', '2017-07-15 06:13:40', '2024-12-02 08:42:52', 1, 2000),
+(3, 3, 'SID002', '2017-07-15 06:13:40', NULL, 0, NULL),
 (4, 3, 'SID002', '2017-07-15 06:23:23', '2017-07-15 11:22:29', 1, 2),
-(5, 1, 'SID009', '2017-07-15 10:59:26', '2024-12-02 08:43:52', 1, 2000),
-(6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL),
-(7, 3, '9', '2024-12-02 23:46:40', NULL, NULL, NULL);
+(5, 1, 'SID009', '2017-07-15 10:59:26', NULL, 0, NULL),
+(6, 3, 'SID011', '2017-07-15 18:02:55', NULL, 0, NULL);
 
 -- --------------------------------------------------------
 
@@ -143,6 +154,7 @@ INSERT INTO `tblissuedbookdetails` (`id`, `BookId`, `StudentID`, `IssuesDate`, `
 CREATE TABLE `tblstudents` (
   `id` int NOT NULL,
   `StudentId` varchar(100) DEFAULT NULL,
+  `UserName` varchar(20) DEFAULT NULL,
   `FullName` varchar(120) DEFAULT NULL,
   `EmailId` varchar(120) DEFAULT NULL,
   `MobileNumber` char(11) DEFAULT NULL,
@@ -156,14 +168,8 @@ CREATE TABLE `tblstudents` (
 -- Dumping data for table `tblstudents`
 --
 
-INSERT INTO `tblstudents` (`id`, `StudentId`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `RegDate`, `UpdationDate`) VALUES
-(1, 'SID002', 'Anuj kumar', 'anuj.lpu1@gmail.com', '9865472555', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-11 15:37:05', '2017-07-15 18:26:21'),
-(4, 'SID005', 'sdfsd', 'csfsd@dfsfks.com', '8569710025', '92228410fc8b872914e023160cf4ae8f', 0, '2017-07-11 15:41:27', '2017-07-15 17:43:03'),
-(8, 'SID009', 'test', 'test@gmail.com', '2359874527', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-11 15:58:28', '2017-07-15 13:42:44'),
-(9, 'SID010', 'Amit', 'amit@gmail.com', '8585856224', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 13:40:30', NULL),
-(10, 'SID011', 'Sarita Pandey', 'sarita@gmail.com', '4672423754', 'f925916e2754e5e03f75dd58a5733251', 1, '2017-07-15 18:00:59', NULL),
-(15, '8TU001\r\n', NULL, 'zafagunof@mailinator.com', '12333333333', '5e8ff9bf55ba3508199d22e984129be6', 1, '2024-12-01 05:32:09', NULL),
-(19, '9', 'MARK JONEL DAEP RELLES', 'rellesmark43@gmail.com', '09260447220', '$2y$10$M5RnyMlVBElx62Fyw1/w1eJ/avKPvg9CT3qntmmngtDNK/60kgJeK', 1, '2024-12-01 06:04:47', '2024-12-02 05:48:32');
+INSERT INTO `tblstudents` (`id`, `StudentId`, `UserName`, `FullName`, `EmailId`, `MobileNumber`, `Password`, `Status`, `RegDate`, `UpdationDate`) VALUES
+(27, '20', 'test', 'mark', 'test@gmail.com', '12345689011', '$2y$10$mYf56.tnhCmC5KcCXHAbTudyUBJgEXEheZVedyHeZ0XotCIl43Cxm', 1, '2024-12-05 16:28:53', '2024-12-05 16:35:30');
 
 --
 -- Indexes for dumped tables
@@ -204,7 +210,8 @@ ALTER TABLE `tblissuedbookdetails`
 --
 ALTER TABLE `tblstudents`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `StudentId` (`StudentId`);
+  ADD UNIQUE KEY `StudentId` (`StudentId`),
+  ADD UNIQUE KEY `UserName` (`UserName`);
 
 --
 -- AUTO_INCREMENT for dumped tables
@@ -238,13 +245,13 @@ ALTER TABLE `tblcategory`
 -- AUTO_INCREMENT for table `tblissuedbookdetails`
 --
 ALTER TABLE `tblissuedbookdetails`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT for table `tblstudents`
 --
 ALTER TABLE `tblstudents`
-  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=20;
+  MODIFY `id` int NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
